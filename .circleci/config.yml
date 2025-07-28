@@ -9,7 +9,12 @@ jobs:
     steps:
       - checkout
       - snyk/scan:
-          command: monitor || true
+          command: |
+            if [ -f package.json ] || [ -f requirements.txt ] || [ -f pom.xml ]; then
+              snyk monitor
+            else
+              echo "No manifest file found. Skipping Snyk scan."
+            fi
           monitor-on-build: false
 
 workflows:
