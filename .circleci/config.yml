@@ -1,4 +1,5 @@
 version: 2.1
+
 orbs: 
   snyk: snyk/snyk@1.1.2
 
@@ -8,16 +9,17 @@ jobs:
       - image: cimg/openjdk:11.0
     steps:
       - checkout
-      - snyk/scan:
-          command: | 
+      - run:
+          name: Conditional Snyk Scan
+          command: |
             if [ -f package.json ] || [ -f requirements.txt ] || [ -f pom.xml ]; then
-              monitor
+              snyk monitor
             else
               echo "No manifest file found. Skipping Snyk scan."
             fi
-          monitor-on-build: false
 
 workflows:
   build-test-snyk:
     jobs:
       - snyk-scan
+
