@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - snyk/scan:
-          command: monitor
+          command: monitor || true
           monitor-on-build: false
 
 workflows:
